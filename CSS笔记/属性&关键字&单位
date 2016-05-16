@@ -10,6 +10,7 @@
    ④ font-size
      ·绝对大小：xx-small ~ xx-large
      ·相对大小：px、em、smaller和larger
+     ·负值无效，等于0
    ⑤ font-variant：small-capss
      ·小型的大写字母
    ⑥ 简写规则
@@ -30,9 +31,21 @@
 	.font{
 		font: italic small-caps bold 12px/1.5em arial,verdana
 	}
-2、font-size：字体大小
-  ·不能有负值。度量单位见下文“单位”
-
+2、操作文本显示
+   ① line-height：2em
+   ② 字母间隔：
+     ·letter-spacing：normal | px | inherit   
+   ③ 单词间隔：
+     ·word-spacing
+   ④ 缩进文本：
+     ·text-intent：2em
+   ⑤ 水平对齐：text-align
+     ·常用的有center和left（justify可以填充右侧空白，但不太稳定，尽量少用）
+   ⑥ 修改大小写
+     ·text-transform：capticalize(各个单词首字母大写) | uppercase | lowercase | none
+   ⑦ 保留空格和换行
+     ·white-space：pre 文本的空格和换行都将保留
+     ·white-space：nowrap； 文本不换行，一行走到头直至遇到<br>。（这个不建议用，了解就好）
 3、margin
   ·外边距，可以有负值，负值表示往反方向平移
 
@@ -41,14 +54,19 @@
 
 5、color系列
   ·
-6、
-
+6、背景色和背景图像
+   ① 可以用url插入一个背景图片
+     ·background-image: url(page.png);
+   ② background-repeat：repeat （全窗口（元素）平铺）| repeat-x （水平平铺）| repeat-y（垂直平铺） | no-repeat
+   ③ 位置 background-position
+   ④ background-attachment:scroll；背景图片随着网页滚动而滚动
 常用关键字
   属性值
     auto：自动调整，扩展
 
 单位
   em：百分比度量，比如2em表示是常规的两倍
+  百分比：占父元素的比例，em是和本元素的比例，这是两者的区别
   px：像素
   ex：相对于字母“x”的高度（尽量避免使用）
 
