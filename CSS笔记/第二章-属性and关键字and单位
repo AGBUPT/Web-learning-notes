@@ -1,9 +1,35 @@
 常用属性
-1、font-family：提供字体候选
-  ·h1{
-     font-family:'Times New Roman', Times, serif; /*提供三种候选字体，先列出的字体优先级高。其中有一种字体*/
-   }
-
+1、font系列
+   ① font-family：提供字体候选
+    ·h1{
+       font-family:'Times New Roman', Times, serif; /*提供三种候选字体，先列出的字体优先级高。其中有一种字体*/
+     }
+   ② font-weight：字体大小
+     ·一般只有normal（默认）和bold两个选项（也有100、200、...、900的数字表示，不过多少多数浏览器已不支持）
+   ③ font-style：italic 斜体
+   ④ font-size
+     ·绝对大小：xx-small ~ xx-large
+     ·相对大小：px、em、smaller和larger
+   ⑤ font-variant：small-capss
+     ·小型的大写字母
+   ⑥ 简写规则
+     ·顺序：font-style | font-variant | font-weight | font-size | line-height | font-family
+     ·font-family和font-size为必填，其他值可以缺省
+     ·如果同时有font-size和line-height，这两个用“/”分隔组成一个值，例如 12px/1.5em
+     ·实例
+	.font{
+		font-style:italic;
+		font-variant:small-caps;
+		font-weight:bold;
+		font-size:12px;
+		line-height:1.5em;
+		font-family:arial,verdana;
+	}
+	
+	简写为：
+	.font{
+		font: italic small-caps bold 12px/1.5em arial,verdana
+	}
 2、font-size：字体大小
   ·不能有负值。度量单位见下文“单位”
 
@@ -15,7 +41,7 @@
 
 5、color系列
   ·
-
+6、
 
 常用关键字
   属性值
