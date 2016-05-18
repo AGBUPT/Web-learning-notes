@@ -31,6 +31,7 @@
 	.font{
 		font: italic small-caps bold 12px/1.5em arial,verdana
 	}
+
 2、操作文本显示
    ① line-height：2em
    ② 字母间隔：
@@ -46,24 +47,54 @@
    ⑦ 保留空格和换行
      ·white-space：pre 文本的空格和换行都将保留
      ·white-space：nowrap； 文本不换行，一行走到头直至遇到<br>。（这个不建议用，了解就好）
-3、margin
-  ·外边距，可以有负值，负值表示往反方向平移
 
-4、padding
-  ·内边距，表示元素内容离元素边界的距离。负值无意义
+3、margin 外边距
+   ·可以有负值，负值表示往反方向平移
+   ·简写
+	-四个值
+	   上 右 下 左
+	-三个值
+            margin:20px 30px 20px; //分别对应① 上② 左和右③ 下边距
+	-两个值
+	    margin：20px 30px //分别对应① 上和下② 左和右
+	-一个值
+            四个外边距都为此值
+   ·外边距折叠：
+	-垂直方向自动折叠，水平方向不折叠。父子元素外边距接触时，也会发生折叠
+   ·水平居中
+	-设置有width，margin: auto;
 
-5、color系列
-  ·
-6、背景色和背景图像
+4、padding 内边距
+   ·内边距，表示元素内容离元素边界的距离。负值无意义
+   ·auto属性【不起作用】
+   ·无折叠（margin有）
+
+5、border-width 边框，也有四个值，简写类似margin
+
+6、width和height
+   ·百分比度量：width：50%；//表示元素宽度为父元素的一半
+   ·最大尺寸和最小尺寸
+	max-idth  max-height  min-width  min-height
+
+7、overflow 溢出
+   ·visible 默认值。溢出内容会在超出边界的部分显示
+   ·hidden 溢出内容会被“截掉”
+   ·scroll 一直显示滚动条（即便内容不超出范围）
+   ·auto 在超出边界的时候显示滚动条
+   ·可以分别控制 横向溢出overflow-x 和 纵向溢出overflow-y
+7、color系列
+   ·
+8、背景色和背景图像
    ① 可以用url插入一个背景图片
      ·background-image: url(page.png);
    ② background-repeat：repeat （全窗口（元素）平铺）| repeat-x （水平平铺）| repeat-y（垂直平铺） | no-repeat
    ③ 位置 background-position
    ④ background-attachment:scroll；背景图片随着网页滚动而滚动
-常用关键字
-  属性值
-    auto：自动调整，扩展
 
+常用关键字
+1、auto：自动调整，扩展
+   ① width：10px；margin：auto //水平居中
+   ② width：auto 块级元素会自动填充能包含的水平区间，height auto貌似比较少用
 单位
   em：百分比度量，比如2em表示是常规的两倍
   百分比：占父元素的比例，em是和本元素的比例，这是两者的区别
