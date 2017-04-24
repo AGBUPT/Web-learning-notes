@@ -46,7 +46,7 @@
             position: absolute;
             background-position: center center
         }
-
+* top, bottom, left, right 表示元素距离**父元素边界**的距离
 - 水平居中：给div设置一个宽度，然后添加margin:0 auto属性
 
 
@@ -76,21 +76,23 @@
  
  
 - 水平垂直居中二：[transform:translate](https://css-tricks.com/almanac/properties/t/transform/)
-    - translate（水平位移，垂直位移）//参数为百分比，
-    - 跟margin的区别在于，**margin是父元素的百分比，而translate是元素自身的百分比**
 
-    未知容器的宽高，利用 `transform` 属性
-    transform 
-    div {
-        position: absolute;     /* 相对定位或绝对定位均可 */
-      width:500px;
-      height:300px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: pink;     /* 方便看效果 */
+        translate（水平位移，垂直位移）//参数为百分比，
+    跟margin的区别在于，**margin是父元素的百分比，而translate是元素自身的百分比**
 
-    }
+        未知容器的宽高，利用 `transform` 属性
+        
+        transform 
+        div {
+          position: absolute;     /* 相对定位或绝对定位均可 */
+          width:500px;
+          height:300px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: pink;     /* 方便看效果 */
+        
+        }
 
 - 水平垂直居中三**--------改回查-----------**
 

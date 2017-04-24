@@ -668,8 +668,306 @@
         同理，用reduceRight求和，5+4+3+2+1, 也会获得相同的结果
         
         
+#### 16、JSON
+    JSON(JavaScript Object Notation)是一种轻量级的数据交换格式
+    它是基于JS的一个子集。数据格式简单，易于读写，占用带宽小
+    如{"name":"Ag", "age":"24"}
+    
+    JSON字符串转JSON对象的三种方法：
+    var obj = eval('(' + str + ')');
+    var obj = JSON.parse(str); //可以接收一个还原函数作为参数
+    var obj = str.parseJSON(); //主要用前两个吧，这个方法有点问题，提示方法undefined
 
+    
+    JSON对象转为JSON字符串：
+    var last = obj.toJSONString();
+    var last = JSON.stringify(obj); //高程P566,可以加过滤器、缩进字符的参数
+    
+    JSON 和 对象字面量 的区别
+    1、JSON没有声明变量，也不用加分号
+    2、对象字面量的属性名称，可加双引号也可以不加
+       JSON的属性名称，必须加双引号（单引号或者不加引号都不可行）
+    
+#### 17、事件
+    1、事件流
+    
+        即描述从页面接收事件的顺序
+        - 事件冒泡：由最具体的元素接收，逐级向上传播到document
+        - 事件捕获：由document开始接收，逐级传播到事件的实际目标。
         
+        老版本浏览器不支持捕获，所以不常用。建议尽量使用事件冒泡，有特殊需要时再用捕获
+        
+        DOM2规定事件流包括三个阶段：捕获 → 目标 → 冒泡
+    
+    
+    2、事件处理程序
+    
+        - HTML事件处理程序  
+            在标签中定义onclick等属性，属性值如果包含特殊符号（比如双引号），需要转义
+            缺点：
+            ①时差问题，可能触发事件的时候函数没准备好，造成错误
+            ②扩展事件处理程序的作用域链在不同浏览器中会导致不同结果
+            ③HTML和JS紧密耦合，如果要更换事件处理程序，就要改动HTML和JS两个地方。
+            这也是很多人摒弃HTML事件处理程序，转而使用JS指定事件处理程序的原因所在
+            
+        - DOM0级事件处理程序
+            JS中指定onclick对应的函数
+            
+        - DOM2级事件处理程序
+            addEventListener、removeEventListener
+    
+    
+    3、事件对象 event
+    
+        兼容DOM的浏览器会将一个event对象传入到事件处理程序中，无论事件处理程序是DOM0级还是DOM2级
+        
+        event的常用属性和方法
+        
+        ① 属性
+        - currentTarget     listener、onclick指定的元素
+        - target            事件直接触发的目标
+        - eventPhase        确定事件正位于事件流的哪个阶段（捕获、目标、冒泡）
+        ② 方法
+        - preventDefault    阻止特定行为，比如点击链接不弹出或跳转link
+        - stopPropagation   立即停止事件在dom中的传播，取消进一步的事件捕获或冒泡
+        * 事件处理程序中的this值，等同于currentTarget
+    
+    4、事件类型
+    
+        ① UI事件
+          指不一定与用户操作有关的事件，这些事件在dom规范出现以前，都是以这种形式存在的，而在dom规范中保留是为了向后兼容
+        - load      页面加载完成后触发。可以通过onload属性、JS定义
+        - unload    页面被卸载；页面跳转。避免调用页面元素，此时可能已经有元素不存在了
+        - resize    窗口大小变化
+        - scroll    文档滚动期间触发
+        
+        ② 焦点事件
+          在元素获得或失去焦点时触发
+        - focus         获得焦点。不冒泡
+        - DOMFocusIn    获得焦点。冒泡
+        - focusin（DOM3) 获得焦点。冒泡
+        - blur          失去焦点。不冒泡
+        - DOMFocusOut   失去焦点。冒泡
+        - focusout      失去焦点。冒泡
+        
+        ③ 鼠标与滚轮事件
+        - click     单击主鼠标按钮/按下回车键
+        - dblclick  双击主鼠标按钮
+        - mousedown 按下任意鼠标按钮
+        - mouseup   释放鼠标按钮
+        - mouseout  鼠标从元素上方移走
+        - mouseover 鼠标移到元素上方  
+        
+        ④ 键盘事件
+        
+        ⑤ 复合事件
+        
+        ⑥ 变动事件
+          DOM中某一部分变化的时候触发
+        - DOMSubtreeModified    DOM中发生任何变化即触发。这个事件在其他任何变动事件触发后都会触发
+        - DOMNodeInserted       插入子节点
+        - DOMNodeRemoved        删除子节点
+        - DOMAttrModified       特性被修改
+        - DOMCharacterDataModified  文本节点的值变化
+        
+        - DOMNodeInsertedIntoDocument   在新插入的节点上触发，不冒泡
+        - DOMNodeRemovedFromDocument    在移除节点和其子节点上触发，不冒泡，指定给其中一个子节点的事件处理程序才会调用
+        
+        ⑦ HTML5事件
+        - contextmenu   显示上下文菜单
+        - beforeunload  关闭页面时的提示框
+        - DOMContentLoaded  DOM树加载完成后触发，比load快，尽早与用户交互, 用于document或weindow
+          （load会在页面的DOM/script/css/img等全部加载完成后触发，DOMContentLoaded只需要在DOM树加载完成即可触发，更快）
+        - pageshow/pagehide  页面显示或卸载之前触发。这两个事件都有一个叫做persisted的属性，来标记页面加载、卸载时是否被保存在了bfcache里，如果有，那再次打开不会触发onload事件
+          （bfcache 是往返缓存，保存页面数据和DOM、JS状态，使浏览器的“后退”“前进”更快。不过指定了onunload处理的页面不会被加入bfcache，onunload最常用于撤销在onload中执行的操作，而跳过onload后再次显示页面可能出现不正常）
+        - hashchange    URL参数列表（及'#'后所有字符串）变化
+        
+    
+    5、内存和性能      
+        ① 事件委托 
+          - 只需在DOM树中尽量高的层次添加事件处理程序
+        ② 移除事件处理程序
+          - 可能造成空事件处理程序的情况：
+            a、从文档中移除带有事件处理程序的元素。使用innerHTML移除元素时，原有事件处理程序并没有被回收。在执行innerHTML前，先移除事件处理程序
+            b、卸载页面时没有处理干净事件处理程序，那会残留在内存中。最好的做法是在页面卸载之前，先通过onunload事件处理程序移除所有事件处理程序
+              在此，事件委托技术再次表现出它的优势——需要跟踪的事件处理程序越少，移除就越容易
+              
+    
+    6、模拟事件      
+          
+#### 18、Ajax是什么？如何创建？
+    ajax全称：Asynchronous JavaScript And XML
+    （异步传输 + JS + XML）
+    
+    技术核心是XMLHttpRequest对象（又名XHR）
+    
+    注意：
+    虽然名字中包含有XML，但Ajax通信与数据格式无关；
+    这种技术就是无需刷新页面即可从服务器取得数据，但不一定是XML格式
+    
+    1、何为异步？
+    
+        所谓异步，即向服务器发送请求的时候，我们不必等待结果，而是可以做其他事情
+        等到有结果了，它就会根据设定进行后续操作，与此同时，页面不会发生整页刷新，提高了用户体验。
+    
+    
+    2、属性
+        status          响应的HTTP状态
+        statusText      HTTP状态的说明
+        responseText    如果响应的内容是'text/xml'或'application/xml',这个属性中将保存包含响应数据的XML DOM文档
+        
+        readyState      请求/响应过程的当前活动阶段
+        可取的值如下：
+            0：未初始化。还没调用open方法
+            1：启动。已经调用open，还没send
+            2：发送。已经调用send，还没收到响应
+            3：接收。已经接收到部分响应数据。
+            4：完成。接收到全部响应数据。
+        每当readyState的值有变化，就会触发一次readystatechange事件。通常我们只对readystate值为4感兴趣，因为此时数据已经准备就绪
+        需在open之前指定onreadystatechange事件处理程序才能确保跨浏览器的兼容性
+    
+    
+    3、原生方法
+    
+        open()  启动请求
+        send()  发送请求
+        abort() 收到响应前取消请求（取消后依然可以对xhr进行操作。由于内存原因，不建议重用xhr）
+    
+    
+    4、进度事件 P580 
+        loadstart → progress → error, abort, load → loadend
+        
+    
+    5、Ajax流程：
+    
+    （1）创建XMLHttpRequest对象，也就是创建一个异步调用对象
+        var xhr = new XMLHttpRequest(); //早期IE不可用，其方法见高程P572
+        
+    （2) 创建一个新的HTTP请求，并指定该HTTP请求的方法、URL以及验证信息
+        xhr.open('get', 'example.txt', false);
+        
+    （3）设置响应HTTP请求状态变化的函数(readystatechange事件)
+        xhr.onreadystatechange = function(){
+            if(xhr.readystate == 4){
+                if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+                    console.log(xhr.responseText);
+                }else{
+                    console.log('Request was unsuccessful: ' + xhr.status);
+                }
+            }
+        }
+        
+    （4）发送HTTP请求
+        xhr.send(null); 
+        
+    （5）获取异步调用返回的数据
+    （6）使用JavaScript和DOM实现局部刷新
+    
+#### 19、跨域资源共享
+    ajax通信的一个主要限制，就是跨域安全策略。默认情况下ajax只能访问当前域的资源，这种策略可以预防某些恶意行为。
+    当然随着技术进步，非IE的原生XHR已经支持跨域了
+    
+    解决方式有CORS、jsonp、iframe、window.name、window.postMessage、服务器上设置代理页面等
+    
+    1、CORS（Cross-Origin Resource Sharing，跨域资源共享）
+    
+        CORS定义了浏览器跨域访问资源的规则。
+        CORS的基本思想，是使用自定义的HTTP头部让服务器、浏览器进行沟通，从而决定响应的成败。
+        
+        发送HTTP请求时，CORS会添加一个Origin头部，其中包含请求页面的源信息（协议、域名和端口），如：
+            Origin: http://www.nczonline.net
+        
+        如果服务器认为这个请求可以接受，就在Access-Control-Allow-Origin头部中回发相同的源信息（公共资源可以回发‘*’），如：
+            Access-Control-Allow-Origin: http://www.nczonline.net
+        
+        驳回和限制：
+        - 驳回：如果没有这个头部或者头部的源信息不匹配，浏览器就会驳回请求
+        - 限制：请求和响应都不会包含cookie信息
+        
+        下面说一下CORS的实现
+        ①IE：引入了XDR，与XHR类似，但可跨域。只支持异步，只支持get、post请求
+        ②其他浏览器：XHR实现了对CORS的原生支持，厉害了。无需额外写代码。只是有一些限制：
+            - 不能使用setRequestHeader()设置自定义头部
+            - 调用getAllRequestHeaders()方法总会返回空字符串
+            - 不能收发cookie（同CORS通用的限制）
+    
+    
+    2、JSONP（JSON with padding，又名填充式JSON 或 参数式JSON）
+    
+        JSONP由两部分组成：回调函数和数据。
+        回调函数一般在请求中指定，如下指定handleResponse()为回调函数：
+        http://freegeoip.net/json/?callback=handleResponse
+        
+        使用方法：通过动态script元素来使用，使用时可以为src指定一个跨域url
+            var script = document.createElement('script');
+            script.src = 'http://freegeoip.net/json/?callback=handleResponse';
+            document.body.insertBefore(script, document.body.firstchild);
+        
+        两点不足：
+        1、安全问题：如果其他域不安全，很可能会在相应中夹带啊一些恶意代码，此时除了完全放弃JSONP调用之外，没有办法追究
+        2、要确定请求失败不容易。虽然h5新增了一个onerror事件处理程序，但目前还没有得到浏览器支持。使用计时器检测也难尽人意，毕竟用户网速不一
+    
+    
+    3、图像ping
+    
+        在JS中动态创建图像，指定跨域的src。响应可以是任何内容，通常是像素图或204
+        常用于跟踪用户点击页面和统计动态广告曝光次数
+        
+        缺点：
+        ① 只能发送get请求
+        ② 无法访问服务器的响应文本
+        
+        因而图像ping只能用于单向通信。
+        
+        
+    4、Comet 又称服务器推送
+    
+        comet是一种服务器向页面推送数据的技术，能够让信息几乎实时推送到页面，适合体育赛事直播和股票报价
+        
+        实现方式：长轮询 和 流。
+        
+        引申一下，说几个概念
+        长轮询：浏览器向服务器发请求，浏览器收到请求后开始等待，直到有新数据才返回响应，关闭请求。然后浏览器再发一个新请求。
+        短轮询：浏览器周期性发送请求。服务器一收到请求就返回响应，无论数据有没有更新，跟长轮询不同的地方在于有周期、没有等待的时间
+        HTTP流：整个生命周期只使用一个HTTP连接。浏览器发送请求后，服务器连接一直把持打开，周期性向浏览器发送数据。通过侦听readystatechange和检测readyState,就可以利用XHR实现流。
+    
+    
+    5、SSE 服务器发送事件
+    
+        属于comet的一种方式。创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据，适用直播赛事
+    
+    
+    6、Web Sockets（使用web socket协议)
+    
+        在单独的持久连接上进行全双工、双向通信。
+        
+        创建过程：
+        - 浏览器发送http请求创建http连接，取得响应后，连接会升级成web socket连接（使用websocket协议，不再是http）
+        
+        优点：
+        - 能够发送非常少量的数据，不用担心流量开销，非常适合移动应用。毕竟对于移动应用而言，网络延迟和带宽都是问题
+        
+        限制：
+        - 现有服务器不一定支持websocket通信。在不能选择websocket的情况下，可以使用XHR和SSE的组合替代
+    
+    
+    安全问题
+        为防备CSRF攻击，需要验证发送请求者是否有权访问相应资源。有以下几种方式可以选择
+        - 要求以SSL连接来访问可以通过XHR访问的资源
+        - 每次请求都附带经过相应算法计算得到的验证码
+        
+        请注意，下面的防护措施无效：
+        - 要求发送post请求而不是get ——很容易改变
+        - 检查来源URL是否可信       ——容易伪造
+        - 检查cookie进行验证        ——也很容易伪造
+        
+        XHR的open方法其实还可以附带用户名和密码的参数，但千万别这样做。
+        把用户名和密码保存在JS中是极不安全的，因为任何会使用JS调试器的人，都可以看到相应的文本形式的密码
+    
+    
+#### 20、？    
+    
+    
         
         
 
